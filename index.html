@@ -8,31 +8,26 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/my-gas-pwa/icon-192.png" />
   <meta name="theme-color" content="#4A90E2" />
   <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    body, html {
       margin: 0;
-      background: #f0f0f0;
-      font-family: sans-serif;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
     }
   </style>
 </head>
 <body>
-  <div>Запуск приложения...</div>
+  <iframe src="https://script.google.com/macros/s/AKfycbwHfWnpftWLCJ6ecQwCbi7LKNxXZNUg5yx9aIeQZmCRgxybzaLYj0QXtjhtQLnk3k3d/exec"></iframe>
 
   <script>
-    // Регистрируем Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/my-gas-pwa/sw.js')
-        .catch(err => console.warn('SW registration failed:', err));
+      navigator.serviceWorker.register('/my-gas-pwa/sw.js');
     }
-
-    // Ждём 1.5 секунды, чтобы SW успел зарегистрироваться
-    setTimeout(() => {
-      window.location.href = "https://script.google.com/macros/s/AKfycbwHfWnpftWLCJ6ecQwCbi7LKNxXZNUg5yx9aIeQZmCRgxybzaLYj0QXtjhtQLnk3k3d/exec";
-    }, 1500);
   </script>
 </body>
 </html>
