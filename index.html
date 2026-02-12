@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Моё приложение</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  
+  <!-- Иконки -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icon-512.png" />
+
+  <!-- Цвет темы -->
+  <meta name="theme-color" content="#4A90E2" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div>Перенаправление на приложение...</div>
+
+  <script>
+    // Сразу перенаправляем на GAS
+    window.location.href = "https://script.google.com/macros/s/AKfycbwHfWnpftWLCJ6ecQwCbi7LKNxXZNUg5yx9aIeQZmCRgxybzaLYj0QXtjhtQLnk3k3d/exec";
+  </script>
+</body>
+</html>
