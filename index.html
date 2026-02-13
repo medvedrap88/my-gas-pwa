@@ -20,34 +20,47 @@
       width: 100%;
       -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
+      overflow: hidden; /* запрещаем скролл на body */
     }
 
     .iframe-container {
       width: 100vw;
       height: 100vh;
-      position: relative;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
+      position: relative;
     }
 
-    .iframe-container iframe {
+    .iframe-wrapper {
+      position: relative;
+      width: 200%; /* компенсируем scale(0.5) → 1 / 0.5 = 2 */
+      height: 195%; /* аналогично: 1 / 0.5 ≈ 2, но чуть меньше из-за пропорций */
+      transform: scale(0.5);
+      transform-origin: top left;
+    }
+
+    .iframe-wrapper iframe {
       width: 100%;
-      height: 1400px; /* базовая высота для мобильных — подстрой при необходимости */
+      height: 100%;
       border: none;
       display: block;
     }
 
-    /* Для десктопа оставляем стандартную высоту */
-    @media (min-width: 769px) {
-      .iframe-container iframe {
-        height: 100vh;
+    /* Очень маленькие экраны */
+    @media (max-width: 375px) {
+      .iframe-wrapper {
+        width: 285.7%; /* 1 / 0.35 ≈ 2.857 */
+        height: 285.7%;
+        transform: scale(0.35);
       }
     }
   </style>
 </head>
 <body>
   <div class="iframe-container">
-    <iframe src="https://script.google.com/macros/s/AKfycbzRp1ca0PTdWDfUMimkpxS8EjCQ4qR_uJgei4ldHKOQ3UeDnTBe6jD-cR_HgQTj3V7O/exec"></iframe>
+    <div class="iframe-wrapper">
+      <iframe src="https://script.google.com/macros/s/AKfycbzRp1ca0PTdWDfUMimkpxS8EjCQ4qR_uJgei4ldHKOQ3UeDnTBe6jD-cR_HgQTj3V7O/exec"></iframe>
+    </div>
   </div>
 
   <script>
