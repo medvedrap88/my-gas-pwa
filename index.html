@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>SALON</title>
   <link rel="manifest" href="/my-gas-pwa/manifest.json" />
   <link rel="icon" type="image/png" sizes="192x192" href="/my-gas-pwa/icon-192.png" />
   <meta name="theme-color" content="#4A90E2" />
   <style>
-    body, html {
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -19,39 +22,72 @@
       -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
     }
-    iframe {
+
+    .iframe-container {
       width: 100vw;
       height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .iframe-container iframe {
+      width: 100%;
+      height: 100%;
       border: none;
       display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
     }
+
+    /* На мобильных: если контент GAS слишком широкий — уменьшим его */
     @media (max-width: 768px) {
-      iframe {
-        transform: scale(1);
+      .iframe-container iframe {
+        /* Предположим, что GAS рендерит ~800px ширины */
+        /* Масштабируем до ширины экрана */
+        transform: scale(0.5);
         transform-origin: top left;
+        width: 200%;
+        height: 200%;
+      }
+    }
+
+    /* Для очень маленьких экранов (например, iPhone SE) */
+    @media (max-width: 375px) {
+      .iframe-container iframe {
+        transform: scale(0.45);
+        width: 222%;
+        height: 222%;
       }
     }
   </style>
 </head>
 <body>
-  <iframe src="https://script.google.com/macros/s/AKfycbwZgMw10NFStv21qBt_U6C8dH-yMHS2_wycnuO2lIO95Yz0IUr8KGoXeY09w_13ffc/exec"></iframe>
+  <div class="iframe-container">
+    <iframe src="https://script.google.com/macros/s/AKfycbwZgMw10NFStv21qBt_U6C8dH-yMHS2_wycnuO2lIO95Yz0IUr8KGoXeY09w_13ffc/exec"></iframe>
+  </div>
 
   <script>
+    // Регистрация Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/my-gas-pwa/sw.js')
-          .then(reg => console.log('Service Worker registered'))
-          .catch(err => console.log('Service Worker registration failed'));
+          .then(() => console.log('SW registered'))
+          .catch(err => console.warn('SW failed:', err));
       });
     }
-    
-    // Дополнительная защита от масштабирования
-    document.addEventListener('gesturestart', function (e) {
-      e.preventDefault();
-    });
+
+    // Блокировка жестов масштабирования
+    document.addEventListener('touchmove', function(e) {
+      if (e.scale !== undefined && e.scale !== 1) e.preventDefault();
+    }, { passive: false });
+
+    // Отключаем двойной тап-зум
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, { passive: false });
   </script>
 </body>
 </html>
