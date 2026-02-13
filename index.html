@@ -18,7 +18,6 @@
       padding: 0;
       height: 100%;
       width: 100%;
-      overflow: hidden;
       -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
     }
@@ -27,32 +26,21 @@
       width: 100vw;
       height: 100vh;
       position: relative;
-      overflow: hidden;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .iframe-container iframe {
       width: 100%;
-      height: 100%;
+      height: 1400px; /* базовая высота для мобильных — подстрой при необходимости */
       border: none;
       display: block;
     }
 
-    /* На мобильных устройствах */
-    @media (max-width: 768px) {
+    /* Для десктопа оставляем стандартную высоту */
+    @media (min-width: 769px) {
       .iframe-container iframe {
-        transform: scale(0.5);
-        transform-origin: top left;
-        width: 200%;
-        height: 195%;
-      }
-    }
-
-    /* Очень маленькие экраны */
-    @media (max-width: 375px) {
-      .iframe-container iframe {
-        transform: scale(0.35);
-        width: 275%;
-        height: 275%;
+        height: 100vh;
       }
     }
   </style>
@@ -85,14 +73,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
