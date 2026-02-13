@@ -2,7 +2,9 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <title>SALON</title>
   <link rel="manifest" href="/my-gas-pwa/manifest.json" />
   <link rel="icon" type="image/png" sizes="192x192" href="/my-gas-pwa/icon-192.png" />
@@ -12,12 +14,25 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      width: 100%;
       overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
     }
     iframe {
       width: 100vw;
       height: 100vh;
       border: none;
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    @media (max-width: 768px) {
+      iframe {
+        transform: scale(1);
+        transform-origin: top left;
+      }
     }
   </style>
 </head>
@@ -26,14 +41,17 @@
 
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/my-gas-pwa/sw.js');
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/my-gas-pwa/sw.js')
+          .then(reg => console.log('Service Worker registered'))
+          .catch(err => console.log('Service Worker registration failed'));
+      });
     }
+    
+    // Дополнительная защита от масштабирования
+    document.addEventListener('gesturestart', function (e) {
+      e.preventDefault();
+    });
   </script>
 </body>
 </html>
-
-
-
-
-
-
