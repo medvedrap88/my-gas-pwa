@@ -37,11 +37,9 @@
       display: block;
     }
 
-    /* На мобильных: если контент GAS слишком широкий — уменьшим его */
+    /* На мобильных устройствах */
     @media (max-width: 768px) {
       .iframe-container iframe {
-        /* Предположим, что GAS рендерит ~800px ширины */
-        /* Масштабируем до ширины экрана */
         transform: scale(0.5);
         transform-origin: top left;
         width: 200%;
@@ -49,10 +47,10 @@
       }
     }
 
-    /* Для очень маленьких экранов (например, iPhone SE) */
+    /* Очень маленькие экраны */
     @media (max-width: 375px) {
       .iframe-container iframe {
-        transform: scale(0.3);
+        transform: scale(0.4);
         width: 250%;
         height: 250%;
       }
@@ -65,7 +63,6 @@
   </div>
 
   <script>
-    // Регистрация Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/my-gas-pwa/sw.js')
@@ -74,25 +71,17 @@
       });
     }
 
-    // Блокировка жестов масштабирования
-    document.addEventListener('touchmove', function(e) {
+    // Блокировка масштабирования жестами
+    document.addEventListener('touchmove', e => {
       if (e.scale !== undefined && e.scale !== 1) e.preventDefault();
     }, { passive: false });
 
-    // Отключаем двойной тап-зум
     let lastTouchEnd = 0;
-    document.addEventListener('touchend', function (event) {
-      const now = (new Date()).getTime();
-      if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-      }
+    document.addEventListener('touchend', e => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) e.preventDefault();
       lastTouchEnd = now;
     }, { passive: false });
   </script>
 </body>
 </html>
-
-
-
-
-
