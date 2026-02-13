@@ -1,6 +1,6 @@
 {
-  "name": "Моё GAS-приложение",
-  "short_name": "GAS App",
+  "name": "SALON",
+  "short_name": "SALON",
   "start_url": "/my-gas-pwa/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -18,3 +18,4 @@
     }
   ]
 }
+
